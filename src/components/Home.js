@@ -16,57 +16,30 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
   }));
 
-function Footer() {
-    // Declare a new state variable, which we'll call "count"
-    const [task, setTask] = useState("");
-    const [taskList, setTaskList] = useState([]);
-    const [completedTaskCount, setCompletedTaskCount] = useState(0);
-
-
   
-    
+
+function Footer() {
+    // Declare a new state variable, which we'll call "todo"
+    // Also create a copy of the todo as an array
+    const [todos, setTodos] = useState([]);
+    const [todo, setTodo] = useState("");const [task, setTask] = useState("");
+  
+
+    const addTodo = () => {
+      if (todo !== " ") {
+      
+      setTodos([...todos, todo]);
+      }
+    };
+
       // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
     // Update the document title using the browser API
-    document.title = `You clicked ${completedTaskCount} times`;
-
-
+    document.title = `You clicked ${task} times`;
+    
+    
+  });
   
-  })
-  
-  
-  const handleClick = () => {
-    const id = taskList.length + 1;
-    setTaskList((prev) => [
-      ...prev,
-      {
-        id: id,
-        task: task,
-        complete: false,
-      },
-    ]);
-    setTask("");
-  };         
-  
-  const handleComplete = (id) => {
-    let list = setTaskList.map((task) => {
-      let item = {};
-      if (task.id == id) {
-        if (!task.complete){
-            //Task is pending, modifying it to complete and increment the count
-            setCompletedTaskCount(completedTaskCount + 1);
-        } 
-        else {
-            //Task is complete, modifying it back to pending, decrement Complete count
-            setCompletedTaskCount(completedTaskCount - 1);
-        }
-    item = { ...task, complete: !task.complete };
-      } else item = { ...task };
-  
-      return item;
-    });
-    setTaskList(list);
-  };
   
     return (
       
@@ -75,53 +48,46 @@ function Footer() {
        <Grid container spacing={2}>
      
          <Grid item xs={8}>
-           <Item> <Button  variant="contained" onClick={() => setCompletedTaskCount(completedTaskCount + 1)}>Click me</Button></Item>
+           <Item> <Button  variant="contained" onClick={() => setTask(task + 1)}>Click me</Button></Item>
          </Grid>
          <Grid item xs={4}>
            <Item>
             
             <div>
-        <p>Add a new {completedTaskCount} times</p>
+        <p>Add a new {task} times</p>
        
-        <TextField  onInput={(e) =>setTask(e.target.value)} id="outlined-basic" label="Outlined" variant="outlined" type="text" value="task" />
+        <input id="outlined-basic" type="text" name="todo" value={todo} placeholder="test"  onChange={(e) => {
+            setTodo(e.target.value);
+          }} />
         <Button variant="outlined" startIcon={<DeleteIcon />}>
          Delete
             </Button>   
-        <Button onClick={() => handleClick()} variant="contained" endIcon={<SendIcon />}>
+        <Button className="add-button" variant="contained" endIcon={<SendIcon />} onClick={addTodo}>
              Send
             </Button>
       </div>
-      <Grid item xs={6}>
-          <h2>Completed tasks</h2>
-         </Grid>
-         <Grid item xs={6}>
-         <h2>Pending tasks</h2>
-            </Grid>
-      </Item>
-      <Grid item xs={12}>
-
-        <ul>
-        {taskList.map((todo) => {
-    return (
-      <p
-        complete={task.complete}
-        id={task.id}
-        onClick={() => handleComplete(task.id)}
-        style={{
-          listStyle: "none",
-          textDecoration: todo.complete && "line-through",
-        }}
-      >
-        {task.task}
-      </p>
-    );
-  })}
-
-        </ul>
-      </Grid>
       
-         </Grid>
+      </Item>
 
+      <Grid item xs={12}>
+           <Item>
+            <ul className="todo-list">
+                {todos.map((todo, index) => (
+                <div className="todo">
+                    <li key={todo}> {todo} 
+                    </li>
+
+
+                </div>
+                
+                ))}
+
+            </ul>
+
+
+           </Item>
+         </Grid>
+         </Grid>
          
        </Grid>
      </Box>
