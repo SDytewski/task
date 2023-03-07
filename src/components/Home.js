@@ -22,7 +22,10 @@ function Footer() {
     // Declare a new state variable, which we'll call "todo"
     // Also create a copy of the todo as an array
     const [todos, setTodos] = useState([]);
-    const [todo, setTodo] = useState("");const [task, setTask] = useState("");
+    //setTodos is the rerendered value
+
+    const [todo, setTodo] = useState("");
+    const [task, setTask] = useState("");
   
 
     const addTodo = () => {
@@ -30,6 +33,16 @@ function Footer() {
       
       setTodos([...todos, todo]);
       }
+    };
+
+    //Grabs the input field that is "text" and filters out the the input
+    // and re-renders the page
+
+    const deleteTodo = (text) => {
+      const newTodos = todos.filter((todo) => {
+        return todo !== text;
+      });
+      setTodos(newTodos);
     };
 
       // Similar to componentDidMount and componentDidUpdate:
@@ -59,9 +72,7 @@ function Footer() {
         <input id="outlined-basic" type="text" name="todo" value={todo} placeholder="test"  onChange={(e) => {
             setTodo(e.target.value);
           }} />
-        <Button variant="outlined" startIcon={<DeleteIcon />}>
-         Delete
-            </Button>   
+        
         <Button className="add-button" variant="contained" endIcon={<SendIcon />} onClick={addTodo}>
              Send
             </Button>
@@ -77,7 +88,10 @@ function Footer() {
                     <li key={todo}> {todo} 
                     </li>
 
-
+                  <Button className="delete-button" variant="outlined" startIcon={<DeleteIcon /> }  onClick={() => {
+                  deleteTodo(todo);
+                }}>
+                  Delete</Button>   
                 </div>
                 
                 ))}
