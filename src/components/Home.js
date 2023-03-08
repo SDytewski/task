@@ -96,10 +96,10 @@ function Footer() {
             
           }} />
         
-        <Button className="add-button" variant="contained" type="submit" endIcon={<SendIcon />} onClick={addTodo}>
+        <Button className="add-button" variant="contained" type="submit" endIcon={<SendIcon />} onClick={(e) => { addTodo(); handleReset(e);}}>
              Send
             </Button>
-            <button onClick={handleReset}>Reset</button>
+           
             
       </div>
       
