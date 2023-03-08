@@ -27,13 +27,27 @@ function Footer() {
     const [todo, setTodo] = useState("");
     const [task, setTask] = useState("");
   
+ 
 
-    const addTodo = () => {
+
+  
+
+    const addTodo = (event) => {
       if (todo !== " ") {
       
       setTodos([...todos, todo]);
       }
+
+      
     };
+
+    function handleReset(e) {
+      e.preventDefault();
+      
+      // clearing the values
+      setTodo("");
+      
+    }
 
     //Grabs the input field that is "text" and filters out the the input
     // and re-renders the page
@@ -45,13 +59,19 @@ function Footer() {
       setTodos(newTodos);
     };
 
+
+  
+
+
       // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
     // Update the document title using the browser API
-    document.title = `You clicked ${task} times`;
-    
+    document.title = `You will add task ${todo}`;
+        
+  
     
   });
+
   
   
     return (
@@ -67,17 +87,25 @@ function Footer() {
            <Item>
             
             <div>
-        <p>Add a new {task} times</p>
+        <p>You will add task:</p>
+        <h3>{todo}</h3>
        
-        <input id="outlined-basic" type="text" name="todo" value={todo} placeholder="test"  onChange={(e) => {
+        <input id="outlined-basic" type="text" name="todo" value={todo} placeholder="test" onChange={(e) => {
             setTodo(e.target.value);
+           
+            
           }} />
         
-        <Button className="add-button" variant="contained" endIcon={<SendIcon />} onClick={addTodo}>
+        <Button className="add-button" variant="contained" type="submit" endIcon={<SendIcon />} onClick={addTodo}>
              Send
             </Button>
+            <button onClick={handleReset}>Reset</button>
+            
       </div>
       
+      
+   
+
       </Item>
 
       <Grid item xs={12}>
