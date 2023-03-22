@@ -7,6 +7,7 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import SendIcon from '@mui/icons-material/Send';
 import { createTheme } from '@mui/material/styles';
 
@@ -44,8 +45,9 @@ function Footer() {
     const [todos, setTodos] = useState([]);
     //setTodos is the rerendered value
     const [todo, setTodo] = useState("");
-    const [task, setTask] = useState("");
   
+
+    //Onclick function to add Todo
      const addTodo = (event) => {
       if (todo !== " ") {
       
@@ -71,6 +73,14 @@ function Footer() {
         return todo !== text;
       });
       setTodos(newTodos);
+    };
+
+
+    const editTodo = (text) => {
+      const newTodos = todos.filter((todo) => {
+        return todo == text;
+      });
+      alert("Edit!")
     };
 
       // Similar to componentDidMount and componentDidUpdate:
@@ -100,6 +110,7 @@ function Footer() {
                <TextField id="outlined-basic" type="text" name="todo" value={todo} placeholder="Type a todo task" onChange={(e) => {
                setTodo(e.target.value);}} />
         
+        
               <Button className="add-button" variant="contained" type="submit" endIcon={<SendIcon />}  sx={{ ml: 2, p: 2}  }onClick={(e) => { addTodo(); handleReset(e);}}>
                  Send
                 </Button>      
@@ -114,15 +125,24 @@ function Footer() {
             <ul className="todo-list">
                 {todos.map((todo, index) => (
                 <div className="todo">
-                    <li key={todo}> {todo} 
+                    <li key={index}> {todo} 
                     </li>
 
                   <Button className="delete-button" variant="outlined" startIcon={<DeleteIcon /> }  onClick={() => {
                   deleteTodo(todo);
                 }}>
                   Delete</Button>   
+
+                  <Button className="edit-button" variant="outlined" startIcon={<EditOutlinedIcon/>}  onClick={() => {
+                  editTodo(todo);
+                }}>
+                  Edit</Button>   
+
                 </div>
                 
+                
+
+
                 ))}
 
             </ul>
