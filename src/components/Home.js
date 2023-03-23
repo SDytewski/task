@@ -45,14 +45,31 @@ function Footer() {
     const [todos, setTodos] = useState([]);
     //setTodos is the rerendered value
     const [todo, setTodo] = useState("");
+    const [editing, setEditing] = useState(false);
+     
+    
+
+    let viewMode = {};
+  let editMode = {};
+  if (editing) {
+    viewMode.display = 'none';
+  } else {
+    editMode.display = 'none';
+  }
+  
   
 
     //Onclick function to add Todo
-     const addTodo = (event) => {
-      if (todo !== " ") {
-      
-      setTodos([...todos, todo]);
+     const addTodo = () => {
+      const task = {
+        id: todos.length === 0 ? 1 :  todos[setTodos.length-1].id + 1,
+        taskName: todo
       }
+
+      // if (todo !== " ") {
+      
+      setTodos([...todos, task]);
+      // }
 
       
     };
@@ -68,19 +85,21 @@ function Footer() {
     //Grabs the input field that is "text" and filters out the the input
     // and re-renders the page
 
-    const deleteTodo = (text) => {
+    const deleteTodo = (id) => {
       const newTodos = todos.filter((todo) => {
-        return todo !== text;
+        return todo.id !== id;
       });
       setTodos(newTodos);
     };
 
 
-    const editTodo = (text) => {
-      const newTodos = todos.filter((todo) => {
-        return todo == text;
-      });
-      alert("Edit!")
+    const editTodo = () => {
+      setEditing(true);
+
+    
+     
+      
+      
     };
 
       // Similar to componentDidMount and componentDidUpdate:
@@ -125,16 +144,28 @@ function Footer() {
             <ul className="todo-list">
                 {todos.map((todo, index) => (
                 <div className="todo">
-                    <li key={index}> {todo} 
+                    <li key={index}> {todo.taskName} 
+                    <div style={viewMode}></div>
+                    <input
+                    type="text"
+                    value={todo.taskName}
+                    style={editMode}
+
+                    onChange={(e) => console.log(e.target.value, todo.id)}
+                    />
+ 
+                  
                     </li>
 
+                    
+
                   <Button className="delete-button" variant="outlined" startIcon={<DeleteIcon /> }  onClick={() => {
-                  deleteTodo(todo);
+                  deleteTodo(todo.id);
                 }}>
                   Delete</Button>   
 
                   <Button className="edit-button" variant="outlined" startIcon={<EditOutlinedIcon/>}  onClick={() => {
-                  editTodo(todo);
+                  editTodo(todo.id);
                 }}>
                   Edit</Button>   
 
