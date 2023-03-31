@@ -46,21 +46,17 @@ function Footer() {
     //setTodos is the rerendered value
     const [todo, setTodo] = useState("");
     const [isEditing, setIsEditing] = useState(false);
-    const [currentTodo, setCurrentTodo] = useState({});
+    const [currentTodo, setCurrentTodo] = useState({
+      id: 0, editTodo: ''
+    });
      
-    
-
   
 
     //Onclick function to add Todo
      const addTodo = () => {
       const task = {
         id: todos.length === 0 ? 1 :  todos[setTodos.length-1].id + 1,
-        taskName: todo.trim(),
-        
-        
-
-       
+        taskName: todo.trim(), 
       }
       // if (todo !== " ") {
       setTodos([...todos, task]);
@@ -105,11 +101,12 @@ function Footer() {
       setTodos(updatedItem);
     }
 
-    function handleEditFormSubmit(e) {
-      e.preventDefault();
+    function handleEditFormSubmit(id, updatedTodo) {
+   console.log(id);
+   console.log(updatedTodo);
   
       // call the handleUpdateTodo function - passing the currentTodo.id and the currentTodo object as arguments
-      handleUpdateTodo(currentTodo.id, currentTodo);
+      // handleUpdateTodo(id, currentTodo);
     }
 
     // const editTodo = () => {
@@ -140,15 +137,9 @@ function Footer() {
        <Box sx={{ flexGrow: 1 }} padding={6}>
         
        <Grid container spacing={2}>
-     
        
          <Grid item xs={12}>
-           <Item>
-
-        
-
-
-            
+           <Item>           
             <div>
             <Typography variant="h3" color='primary.light' padding={3}>TO DO TASKMAKER</Typography>
              <h4>YOU WILL ADD TASK:</h4>
@@ -162,50 +153,45 @@ function Footer() {
                  Send
                 </Button>      
             </div>
-      
-    
-
+  
       </Item>
       
 
       <Grid item xs={12}>
            <Item>
             <ul className="todo-list">
-                {todos.map((todo, index) => (
+                {todos.map((item, index) => (
                 <div className="todo">
-                    <li key={index}> {todo.taskName} 
-                    {isEditing ? (
-        // if we are editing - display the edit todo input
-        // make sure to add the handleEditFormSubmit function in the "onSubmit" prop
-        <form onSubmit={handleEditFormSubmit}>
-          {/* we've added an h2 element */}
-          <h2>Edit Todo</h2>
-          {/* also added a label for the input */}
-          <label htmlFor="editTodo">Edit todo: </label>
-          {/* notice that the value for the update input is set to the currentTodo state */}
-          {/* also notice the handleEditInputChange is being used */}
-          <input
-            name="editTodo"
-            type="text"
-            placeholder="Edit todo"
-            value={currentTodo.taskName}
-            onChange={handleEditInputChange}
-          />
-          {/* here we added an "update" button element - use the type="submit" on the button which will still submit the form when clicked using the handleEditFormSubmit function */}
-          <button type="submit">Update</button>
-          {/* here we added a "Cancel" button to set isEditing state back to false which will cancel editing mode */}
-          <button onClick={() => setIsEditing(false)}>Cancel</button>
-        </form>
-      ) : ( <div>Not Editing</div>)}
-                
- 
-                  
-                    </li>
+                <li key={item.id}> {item.taskName} 
+                  {isEditing ? (
+                // if we are editing - display the edit todo input
+                  // make sure to add the handleEditFormSubmit function in the "onSubmit" prop
+             <>
+                          {/* we've added an h2 element */}
+                          <h2>Edit Todo</h2>
+                        {/* also added a label for the input */}
+                      <label htmlFor="editTodo">Edit todo: </label>
+                        {/* notice that the value for the update input is set to the currentTodo state */}
+                        {/* also notice the handleEditInputChange is being used */}
+                      <input
+                        name="editTodo"
+                        type="text"
+                        placeholder="Edit todo"
+                        value={item.taskName}
+                        onChange={(e)=> setCurrentTodo( {...currentTodo,  [e.target.name]: e.target.value} )}
+                      />
+                      {/* here we added an "update" button element - use the type="submit" on the button which will still submit the form when clicked using the handleEditFormSubmit function */}
+                        <button onClick={()=> handleEditFormSubmit(item.id, item.taskName)}>Update</button>
+                      {/* here we added a "Cancel" button to set isEditing state back to false which will cancel editing mode */}
+                      <button onClick={() => setIsEditing(false)}>Cancel</button>
+           </>
+                  ) : ( <div>Not Editing</div>)}            
+                </li>
 
                     
 
                   <Button className="delete-button" variant="outlined" startIcon={<DeleteIcon /> }  onClick={() => {
-                  deleteTodo(todo.id);
+                  deleteTodo(item.id);
                 }}>
                   Delete</Button>   
 
