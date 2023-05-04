@@ -54,12 +54,15 @@ function Footer() {
 
     //Onclick function to add Todo
      const addTodo = () => {
-      const task = {
-        id: todos.length === 0 ? 1 :  todos[setTodos.length-1].id + 1,
-        taskName: todo.trim(), 
-      }
+     
       // if (todo !== " ") {
-      setTodos([...todos, task]);
+      setTodos((prevToDos)=>{
+        const task = {
+          id: prevToDos.length === 0 ? 1 :  prevToDos[setTodos.length-1].id + 1,
+          taskName: todo.trim(), 
+        }
+       return [...prevToDos, task]
+      });
       // }
     };
 
@@ -174,11 +177,20 @@ function Footer() {
                         {/* notice that the value for the update input is set to the currentTodo state */}
                         {/* also notice the handleEditInputChange is being used */}
                       <input
-                        name="editTodo"
+                        name={`editTodo${item.id}`}
                         type="text"
                         placeholder="Edit todo"
                         value={item.taskName}
-                        onChange={(e)=> setCurrentTodo( {...currentTodo,  [e.target.name]: e.target.value} )}
+                        onChange={(e)=>{
+                        setTodos((prevToDos)=>{
+                          return prevToDos.map((todo)=>{
+                            return {
+                              ...todo, 
+                              taskName: todo.id 
+                            }
+                          })
+                         })
+                        }}
                       />
                       {/* here we added an "update" button element - use the type="submit" on the button which will still submit the form when clicked using the handleEditFormSubmit function */}
                         <button onClick={()=> handleEditFormSubmit(item.id, item.taskName)}>Update</button>
