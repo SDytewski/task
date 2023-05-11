@@ -186,7 +186,8 @@ function Footer() {
                           return prevToDos.map((todo)=>{
                             return {
                               ...todo, 
-                              taskName: todo.id 
+                              taskName: todo.id === item.id 
+                              
                             }
                           })
                          })
