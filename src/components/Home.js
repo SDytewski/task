@@ -109,7 +109,7 @@ function Footer() {
    console.log(updatedTodo);
   
       // call the handleUpdateTodo function - passing the currentTodo.id and the currentTodo object as arguments
-      // handleUpdateTodo(id, currentTodo);
+       handleUpdateTodo(id, currentTodo);
     }
 
     // const editTodo = () => {
@@ -217,9 +217,7 @@ function Footer() {
                   Edit</Button>   
 
                 </div>
-                
-                
-
+        
 
                 ))}
 
