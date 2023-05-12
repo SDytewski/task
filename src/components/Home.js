@@ -186,7 +186,10 @@ function Footer() {
                           return prevToDos.map((todo)=>{
                             return {
                               ...todo, 
-                              taskName: todo.id === item.id 
+                              taskName:
+                               (todo.id === item.id ?
+                               e.target.value : null
+                                )
                               
                             }
                           })
