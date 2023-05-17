@@ -82,13 +82,14 @@ function Footer() {
         return todo.id !== id;
       });
       setTodos(newTodos);
+      // console.log(newTodos)
     };
 
 
     function handleEditInputChange(e) {
       // set the new state value to what's currently in the edit input box
       setCurrentTodo({ ...currentTodo, taskName: e.target.value });
-      console.log(currentTodo);
+      // console.log(currentTodo);
     }
 
     function handleUpdateTodo(id, updatedTodo) {
@@ -102,11 +103,13 @@ function Footer() {
       setIsEditing(false);
       // update the todos state with the updated todo
       setTodos(updatedItem);
+      console.log(updatedItem)
+      // console.log(updatedItem)
     }
 
     function handleEditFormSubmit(id, updatedTodo) {
-   console.log(id);
-   console.log(updatedTodo);
+  //  console.log(id);
+  //  console.log(updatedTodo);
   
       // call the handleUpdateTodo function - passing the currentTodo.id and the currentTodo object as arguments
        handleUpdateTodo(id, currentTodo);
