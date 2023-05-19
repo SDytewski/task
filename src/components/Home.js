@@ -39,7 +39,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
   
 
-function Footer() {
+function Home() {
     // Declare a new state variable, which we'll call "todo"
     // Also create a copy of the todo as an array
     const [todos, setTodos] = useState([]);
@@ -50,6 +50,7 @@ function Footer() {
       id: 0, editTodo: ''
     });
      
+    console.log(todos)
   
 
     //Onclick function to add Todo
@@ -86,12 +87,6 @@ function Footer() {
     };
 
 
-    function handleEditInputChange(e) {
-      // set the new state value to what's currently in the edit input box
-      setCurrentTodo({ ...currentTodo, taskName: e.target.value });
-      // console.log(currentTodo);
-    }
-
     function handleUpdateTodo(id, updatedTodo) {
       // here we are mapping over the todos array - the idea is check if the todo.id matches the id we pass into the function
       // if the id's match, use the second parameter to pass in the updated todo object
@@ -103,7 +98,7 @@ function Footer() {
       setIsEditing(false);
       // update the todos state with the updated todo
       setTodos(updatedItem);
-      console.log(updatedItem)
+     
       // console.log(updatedItem)
     }
 
@@ -112,7 +107,7 @@ function Footer() {
   //  console.log(updatedTodo);
   
       // call the handleUpdateTodo function - passing the currentTodo.id and the currentTodo object as arguments
-       handleUpdateTodo(id, currentTodo);
+       handleUpdateTodo(id, updatedTodo);
     }
 
     // const editTodo = () => {
@@ -191,7 +186,7 @@ function Footer() {
                               ...todo, 
                               taskName:
                                (todo.id === item.id ?
-                               e.target.value : null
+                               e.target.value : todo.taskName
                                 )
                               
                             }
@@ -200,7 +195,7 @@ function Footer() {
                         }}
                       />
                       {/* here we added an "update" button element - use the type="submit" on the button which will still submit the form when clicked using the handleEditFormSubmit function */}
-                        <button onClick={()=> handleEditFormSubmit(item.id, item.taskName)}>Update</button>
+                        <button onClick={()=> handleEditFormSubmit(item.id, item)}>Update</button>
                       {/* here we added a "Cancel" button to set isEditing state back to false which will cancel editing mode */}
                       <button onClick={() => setIsEditing(false)}>Cancel</button>
            </>
@@ -234,10 +229,7 @@ function Footer() {
        </Grid>
      </Box>
 
-
-
-
     );
   }
   
-  export default Footer;
+  export default Home;
