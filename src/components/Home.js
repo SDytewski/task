@@ -75,7 +75,7 @@ function Home() {
       
     }
 
-    //Grabs the input field that is "text" and filters out the the input
+    //Grabs the input field that is a string "text" and filters out the the input
     // and re-renders the page
 
     const deleteTodo = (id) => {
@@ -93,6 +93,7 @@ function Home() {
       // otherwise just use old todo
       const updatedItem = todos.map((todo) => {
         return todo.id === id ? updatedTodo : todo;
+        // if else state state that takes todo.id and matches the updated todo, else keep old todo 
       });
       // set editing to false because this function will be used inside a onSubmit function - which means the data was submited and we are no longer editing
       setIsEditing(false);
