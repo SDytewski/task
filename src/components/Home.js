@@ -63,7 +63,7 @@ function Home() {
     // if (todo !== " ") {
     setTodos((prevToDos) => {
       const task = {
-        id: prevToDos.length === 0 ? 1 : prevToDos[setTodos.length - 1].id + 1,
+        id: prevToDos.length === 0 ? 1 : prevToDos[setTodos.length - 1].id ++,
         taskName: todo.trim(),
       }
       return [...prevToDos, task]
