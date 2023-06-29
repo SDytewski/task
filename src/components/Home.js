@@ -56,14 +56,14 @@ function Home() {
 
   console.log(todos)
 
-
+ 
   //Onclick function to add Todo
   const addTodo = () => {
 
     // if (todo !== " ") {
     setTodos((prevToDos) => {
       const task = {
-        id: prevToDos.length === 0 ? 1 : prevToDos[setTodos.length - 1].id ++,
+        id: prevToDos.length === 0 ? 1 : prevToDos[prevToDos.length - 1].id + 1,
         taskName: todo.trim(),
       }
       return [...prevToDos, task]
@@ -178,7 +178,7 @@ function Home() {
                   // <div className="todo" style={{ border: 1 }} >
                   <Card variant="outlined"  sx={{ minWidth: 275, margin: 2 }}>
                   <CardContent>
-                  <Typography variant="h5" component="div">
+                  <Typography variant="h3" component="div">
                     <li key={item.id} > {item.taskName}
                       {isEditing ? (
                         // if we are editing - display the edit todo input
