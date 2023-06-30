@@ -50,9 +50,15 @@ function Home() {
   //setTodos is the rerendered value
   const [todo, setTodo] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-  const [currentTodo, setCurrentTodo] = useState({
-    id: 0, editTodo: ''
-  });
+  const [name, setName] = useState("John");
+  
+  const [currentTodo, setCurrentTodo] = useState(
+  //   {
+  //   id: 0, editTodo: ''
+  // }
+  
+  
+  );
 
   console.log(todos)
 
@@ -160,6 +166,10 @@ function Home() {
               <Button className="add-button" variant="contained" type="submit" endIcon={<SendIcon />} sx={{ ml:2, mt: 3, p: 2, }} onClick={(e) => { addTodo(); handleReset(e); }}>
                 Send
               </Button>
+              <div id="name">
+                {name}
+              </div>
+              <Button onClick={()=> setName("Larry") }>Click</Button>
             </div>
 
           </Item>
