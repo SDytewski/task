@@ -14,6 +14,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import SendIcon from '@mui/icons-material/Send';
 import { createTheme } from '@mui/material/styles';
+import  EditToDoForm  from "./EditToDoForm";
 
 
 const theme = createTheme({
@@ -200,7 +201,7 @@ function Home() {
                           {/* <label htmlFor="editTodo">Edit todo: </label> */}
                           {/* notice that the value for the update input is set to the currentTodo state */}
                           {/* also notice the handleEditInputChange is being used */}
-                          <TextField
+                          {/* <TextField
                             name={`editTodo${item.id}`}
                             type="text"
                             placeholder="Edit todo"
@@ -219,7 +220,10 @@ function Home() {
                                 })
                               })
                             }}
-                          />
+                          /> */
+                          
+                          <EditToDoForm/>
+                          }
                           {/* here we added an "update" button element - use the type="submit" on the button which will still submit the form when clicked using the handleEditFormSubmit function */}
                           <Button variant="outlined" sx={{ ml: 2, mt: 2, mb: 1, p: 1 }} onClick={() => handleEditFormSubmit(item.id, item)}>Update</Button>
                           {/* here we added a "Cancel" button to set isEditing state back to false which will cancel editing mode */}
