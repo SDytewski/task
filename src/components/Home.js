@@ -97,15 +97,15 @@ function Home() {
   //Grabs the input field that is a string "text" and filters out the the input
   // and re-renders the page
 
-  const deleteTodo = (id, todo) => {
+  const deleteTodo = (id, todos) => {
     const newTodos = todos.filter((todo) => {
       return todo.id !== id;
       
       
     });
     setTodos(newTodos);
-    console.log(todo + "hello")
-    todo.length ===  0 ? setEditShow(false) : setEditShow(true)
+    console.log(newTodos + "HELLO")
+    newTodos.length === 0 ? setEditShow(false) : setEditShow(true)
    
     
     // console.log(newTodos)
@@ -265,7 +265,7 @@ function Home() {
                         </li>
                         { show && <div>
                           <Button className="delete-button" variant="outlined" startIcon={<DeleteIcon />} sx={{ mr: 2, mt: 2, p: 1 }} onClick={() => {
-                            deleteTodo(item.id, todo)
+                            deleteTodo(item.id, todos)
                           }}>
                             Delete</Button>
 
