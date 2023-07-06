@@ -53,6 +53,7 @@ function Home() {
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState("John");
   const [show, setShow] = useState(true)
+  const [editShow, setEditShow] = useState(false)
 
   const hideButton = () => {
     setShow(true);
@@ -68,19 +69,21 @@ function Home() {
 
   console.log(todos)
 
-
+ 
   //Onclick function to add Todo
   const addTodo = () => {
-
+    
     // if (todo !== " ") {
     setTodos((prevToDos) => {
       const task = {
         id: prevToDos.length === 0 ? 1 : prevToDos[prevToDos.length - 1].id + 1,
         taskName: todo.trim(),
+        edit: prevToDos.length <= 1 ? setEditShow(true) : setEditShow(false)
       }
       return [...prevToDos, task]
     });
     // }
+    
   };
 
   function handleReset(e) {
@@ -94,11 +97,17 @@ function Home() {
   //Grabs the input field that is a string "text" and filters out the the input
   // and re-renders the page
 
-  const deleteTodo = (id) => {
+  const deleteTodo = (id, todo) => {
     const newTodos = todos.filter((todo) => {
       return todo.id !== id;
+      
+      
     });
     setTodos(newTodos);
+    console.log(todo + "hello")
+    todo.length ===  0 ? setEditShow(false) : setEditShow(true)
+   
+    
     // console.log(newTodos)
   };
 
@@ -169,7 +178,7 @@ function Home() {
               }} />
 
 
-              <Button className="add-button" variant="contained" type="submit" endIcon={<SendIcon />} sx={{ ml: 2, mt: 3, p: 2, }} onClick={(e) => { addTodo(); handleReset(e); }}>
+              <Button className="add-button" variant="contained" type="submit" endIcon={<SendIcon />} sx={{ ml: 2, mt: 3, p: 2, }} onClick={(e) => { addTodo(todos); handleReset(e); }}>
                 Send
               </Button>
               <div id="name">
@@ -190,13 +199,24 @@ function Home() {
 
               }}
               >
+                
+                
+                  { editShow && <div>
+ <Button className="edit-button" variant="outlined" startIcon={<EditOutlinedIcon />} sx={{ mr: 2, mt: 2, p: 1 }} onClick={() => {
+                            handleEditClick(todo); setShow(!show); setEditShow(false)
+
+                          }}>
+                            Edit All</Button>
+                            </div>
+                        }
+
                 {todos.map((item, index) => (
                   // <div className="todo" style={{ border: 1 }} >
                   <Card variant="outlined" sx={{ minWidth: 275, margin: 2 }}>
                     <CardContent>
                       <Typography variant="h3" component="div">
 
-                        <li key={item.id} > {item.taskName}
+                        <li key={item.id} > {item.taskName} 
                           {isEditing ? (
 
                             // if we are editing - display the edit todo input
@@ -234,10 +254,10 @@ function Home() {
                               {/* here we added an "update" button element - use the type="submit" on the button which will still submit the form when clicked using the handleEditFormSubmit function */}
                               <Button variant="outlined" sx={{ ml: 2, mt: 2, mb: 1, p: 1 }} onClick={() => {handleEditFormSubmit(item.id, item); setShow(true)}}>Update</Button>
                               {/* here we added a "Cancel" button to set isEditing state back to false which will cancel editing mode */}
-                              <Button variant="outlined" sx={{ ml: 2, mt: 2, mb: 1, p: 1 }} onClick={() => {setIsEditing(false); setShow(true)}}>Cancel</Button> 
+                              <Button variant="outlined" sx={{ ml: 2, mt: 2, mb: 1, p: 1 }} onClick={() => {setIsEditing(false); setShow(true); setEditShow(true)}}>Cancel</Button> 
 
                             </>
-                          ) : (" ")}
+                          ) : (" ") }
 
                           {/* Below code shows the todo number */}
                           {/* <div>Todo Number: {`${item.id}`}</div> */}
@@ -245,15 +265,11 @@ function Home() {
                         </li>
                         { show && <div>
                           <Button className="delete-button" variant="outlined" startIcon={<DeleteIcon />} sx={{ mr: 2, mt: 2, p: 1 }} onClick={() => {
-                            deleteTodo(item.id)
+                            deleteTodo(item.id, todo)
                           }}>
                             Delete</Button>
 
-                          <Button className="edit-button" variant="outlined" startIcon={<EditOutlinedIcon />} sx={{ mr: 2, mt: 2, p: 1 }} onClick={() => {
-                            handleEditClick(todo); setShow(!show)
-
-                          }}>
-                            Edit All</Button>
+                         
                         </div>
                         }
                       </Typography>
