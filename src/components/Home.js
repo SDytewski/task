@@ -14,7 +14,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import SendIcon from '@mui/icons-material/Send';
 import { createTheme } from '@mui/material/styles';
-import EditToDoForm from "./EditToDoForm";
+
 
 
 const theme = createTheme({
@@ -51,7 +51,8 @@ function Home() {
   //setTodos is the rerendered value
   const [todo, setTodo] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-  const [name, setName] = useState("John");
+
+  // These states hide and show buttons
   const [show, setShow] = useState(true)
   const [editShow, setEditShow] = useState(false)
 
@@ -59,13 +60,13 @@ function Home() {
     setShow(true);
   };
 
-  const [currentTodo, setCurrentTodo] = useState(
+  // const [currentTodo, setCurrentTodo] = useState(
     //   {
     //   id: 0, editTodo: ''
     // }
 
 
-  );
+  // );
 
   console.log(todos)
 
@@ -143,7 +144,7 @@ function Home() {
     // set editing to true
     setIsEditing(true);
     // set the currentTodo to the todo item that was clicked
-    setCurrentTodo({ ...todo });
+    // setCurrentTodo({ ...todo });
   }
 
 
@@ -181,10 +182,7 @@ function Home() {
               <Button className="add-button" variant="contained" type="submit" endIcon={<SendIcon />} sx={{ ml: 2, mt: 3, p: 2, }} onClick={(e) => { addTodo(todos); handleReset(e); }}>
                 Send
               </Button>
-              <div id="name">
-                {name}
-              </div>
-              <Button onClick={() => setName("Larry")}>Click</Button>
+             
             </div>
 
           </Item>
@@ -214,9 +212,10 @@ function Home() {
                   // <div className="todo" style={{ border: 1 }} >
                   <Card variant="outlined" sx={{ minWidth: 275, margin: 2 }}>
                     <CardContent>
-                      <Typography variant="h3" component="div">
+                      <Typography variant="h5" component="div">
 
-                        <li key={item.id} > {item.taskName} 
+                        <li>
+                       <div key={item.id} > {item.taskName} </div>
                           {isEditing ? (
 
                             // if we are editing - display the edit todo input
@@ -252,7 +251,7 @@ function Home() {
 
                               }
                               {/* here we added an "update" button element - use the type="submit" on the button which will still submit the form when clicked using the handleEditFormSubmit function */}
-                              <Button variant="outlined" sx={{ ml: 2, mt: 2, mb: 1, p: 1 }} onClick={() => {handleEditFormSubmit(item.id, item); setShow(true)}}>Update</Button>
+                              <Button variant="outlined" sx={{ ml: 2, mt: 2, mb: 1, p: 1 }} onClick={() => {handleEditFormSubmit(item.id, item); setShow(true); setEditShow(true)}}>Update All</Button>
                               {/* here we added a "Cancel" button to set isEditing state back to false which will cancel editing mode */}
                               <Button variant="outlined" sx={{ ml: 2, mt: 2, mb: 1, p: 1 }} onClick={() => {setIsEditing(false); setShow(true); setEditShow(true)}}>Cancel</Button> 
 
