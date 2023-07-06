@@ -16,7 +16,7 @@ import SendIcon from '@mui/icons-material/Send';
 import { createTheme } from '@mui/material/styles';
 
 
-function EditToDoForm (todo, todos, isEditing, setIsEditing, updatedItem, setTodos, id, updatedTodo) {
+function EditToDoForm (todo, handleEditFormSubmit, prevToDos, todos, isEditing, item, setIsEditing, updatedItem, setTodos, id, updatedTodo) {
     // here we are mapping over the todos array - the idea is check if the todo.id matches the id we pass into the function
     // if the id's match, use the second parameter to pass in the updated todo object
     // otherwise just use old todo
@@ -27,13 +27,16 @@ function EditToDoForm (todo, todos, isEditing, setIsEditing, updatedItem, setTod
   
 
     // console.log(updatedItem)
+    
 
 
 return (
 
-<div>hello</div>
+<div>test</div>
+                   
+                      )
 
-);
+
 
 }
 

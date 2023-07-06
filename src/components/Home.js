@@ -14,7 +14,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import SendIcon from '@mui/icons-material/Send';
 import { createTheme } from '@mui/material/styles';
-import  EditToDoForm  from "./EditToDoForm";
+import EditToDoForm from "./EditToDoForm";
 
 
 const theme = createTheme({
@@ -52,18 +52,23 @@ function Home() {
   const [todo, setTodo] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState("John");
-  
-  const [currentTodo, setCurrentTodo] = useState(
-  //   {
-  //   id: 0, editTodo: ''
-  // }
+  const [show, setShow] = useState(true)
 
-  
+  const hideButton = () => {
+    setShow(true);
+  };
+
+  const [currentTodo, setCurrentTodo] = useState(
+    //   {
+    //   id: 0, editTodo: ''
+    // }
+
+
   );
 
   console.log(todos)
 
- 
+
   //Onclick function to add Todo
   const addTodo = () => {
 
@@ -159,18 +164,18 @@ function Home() {
               <h4>YOU WILL ADD TASK:</h4>
               {/* <h3>{todo}</h3> */}
 
-              <TextField id="outlined-basic" type="text" name="todo" value={todo} placeholder="Type a todo task" sx={{ ml: 1, mt: 1, p: 2, }}  onChange={(e) => {
+              <TextField id="outlined-basic" type="text" name="todo" value={todo} placeholder="Type a todo task" sx={{ ml: 1, mt: 1, p: 2, }} onChange={(e) => {
                 setTodo(e.target.value);
               }} />
 
 
-              <Button className="add-button" variant="contained" type="submit" endIcon={<SendIcon />} sx={{ ml:2, mt: 3, p: 2, }} onClick={(e) => { addTodo(); handleReset(e); }}>
+              <Button className="add-button" variant="contained" type="submit" endIcon={<SendIcon />} sx={{ ml: 2, mt: 3, p: 2, }} onClick={(e) => { addTodo(); handleReset(e); }}>
                 Send
               </Button>
               <div id="name">
                 {name}
               </div>
-              <Button onClick={()=> setName("Larry") }>Click</Button>
+              <Button onClick={() => setName("Larry")}>Click</Button>
             </div>
 
           </Item>
@@ -187,67 +192,73 @@ function Home() {
               >
                 {todos.map((item, index) => (
                   // <div className="todo" style={{ border: 1 }} >
-                  <Card variant="outlined"  sx={{ minWidth: 275, margin: 2 }}>
-                  <CardContent>
-                  <Typography variant="h3" component="div">
-                    <li key={item.id} > {item.taskName}
-                      {isEditing ? (
-                        // if we are editing - display the edit todo input
-                        // make sure to add the handleEditFormSubmit function in the "onSubmit" prop
-                        <>
-                          {/* we've added an h2 element */}
-                          {/* <h2>Edit Todo</h2> */}
-                          {/* also added a label for the input */}
-                          {/* <label htmlFor="editTodo">Edit todo: </label> */}
-                          {/* notice that the value for the update input is set to the currentTodo state */}
-                          {/* also notice the handleEditInputChange is being used */}
-                          {/* <TextField
-                            name={`editTodo${item.id}`}
-                            type="text"
-                            placeholder="Edit todo"
-                            value={item.taskName}
-                            onChange={(e) => {
-                              setTodos((prevToDos) => {
-                                return prevToDos.map((todo) => {
-                                  return {
-                                    ...todo,
-                                    taskName:
-                                      (todo.id === item.id ?
-                                        e.target.value : todo.taskName
-                                      )
+                  <Card variant="outlined" sx={{ minWidth: 275, margin: 2 }}>
+                    <CardContent>
+                      <Typography variant="h3" component="div">
 
-                                  }
-                                })
-                              })
-                            }}
-                          /> */
-                          
-                          <EditToDoForm/>
-                          }
-                          {/* here we added an "update" button element - use the type="submit" on the button which will still submit the form when clicked using the handleEditFormSubmit function */}
-                          <Button variant="outlined" sx={{ ml: 2, mt: 2, mb: 1, p: 1 }} onClick={() => handleEditFormSubmit(item.id, item)}>Update</Button>
-                          {/* here we added a "Cancel" button to set isEditing state back to false which will cancel editing mode */}
-                          <Button variant="outlined" sx={{ ml: 2, mt: 2, mb: 1, p: 1 }} onClick={() => setIsEditing(false)}>Cancel</Button>
-                        </>
-                      ) : (" ")}
+                        <li key={item.id} > {item.taskName}
+                          {isEditing ? (
 
-                      {/* Below code shows the todo number */}
-                      {/* <div>Todo Number: {`${item.id}`}</div> */}
+                            // if we are editing - display the edit todo input
+                            // make sure to add the handleEditFormSubmit function in the "onSubmit" prop
+                            <>
+                              {/* we've added an h2 element */}
+                              {/* <h2>Edit Todo</h2> */}
+                              {/* also added a label for the input */}
+                              {/* <label htmlFor="editTodo">Edit todo: </label> */}
+                              {/* notice that the value for the update input is set to the currentTodo state */}
+                              {/* also notice the handleEditInputChange is being used */}
+                              {<TextField
+                                name={`editTodo${item.id}`}
+                                type="text"
+                                placeholder="Edit todo"
+                                value={item.taskName}
+                                onChange={(e) => {
+                                  setTodos((prevToDos) => {
+                                    return prevToDos.map((todo) => {
+                                      return {
+                                        ...todo,
+                                        taskName:
+                                          (todo.id === item.id ?
+                                            e.target.value : todo.taskName
+                                          )
 
-                    </li>
+                                      }
+                                    })
+                                  })
+                                }}
+                              />
 
-                    <Button className="delete-button" variant="outlined" startIcon={<DeleteIcon />} sx={{ mr: 2, mt: 2, p: 1 }} onClick={() => {
-                      deleteTodo(item.id);
-                    }}>
-                      Delete</Button>
 
-                    <Button className="edit-button" variant="outlined" startIcon={<EditOutlinedIcon />} sx={{ mr: 2, mt: 2, p: 1 }} onClick={() => {
-                      handleEditClick(todo);
-                    }}>
-                      Edit All</Button>
+                              }
+                              {/* here we added an "update" button element - use the type="submit" on the button which will still submit the form when clicked using the handleEditFormSubmit function */}
+                              <Button variant="outlined" sx={{ ml: 2, mt: 2, mb: 1, p: 1 }} onClick={() => {handleEditFormSubmit(item.id, item); setShow(true)}}>Update</Button>
+                              {/* here we added a "Cancel" button to set isEditing state back to false which will cancel editing mode */}
+                              <Button variant="outlined" sx={{ ml: 2, mt: 2, mb: 1, p: 1 }} onClick={() => {setIsEditing(false); setShow(true)}}>Cancel</Button> 
+
+                            </>
+                          ) : (" ")}
+
+                          {/* Below code shows the todo number */}
+                          {/* <div>Todo Number: {`${item.id}`}</div> */}
+
+                        </li>
+                        { show && <div>
+                          <Button className="delete-button" variant="outlined" startIcon={<DeleteIcon />} sx={{ mr: 2, mt: 2, p: 1 }} onClick={() => {
+                            deleteTodo(item.id)
+                          }}>
+                            Delete</Button>
+
+                          <Button className="edit-button" variant="outlined" startIcon={<EditOutlinedIcon />} sx={{ mr: 2, mt: 2, p: 1 }} onClick={() => {
+                            handleEditClick(todo); setShow(!show)
+
+                          }}>
+                            Edit All</Button>
+                        </div>
+                        }
                       </Typography>
-                      </CardContent>
-                      </Card>
+                    </CardContent>
+                  </Card>
                   // </div>
 
 
