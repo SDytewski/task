@@ -14,6 +14,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import SendIcon from '@mui/icons-material/Send';
 import { createTheme } from '@mui/material/styles';
+import { useForm } from "react-hook-form";
+import Container from "@mui/material/Container";
 
 
 
@@ -44,6 +46,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 
+
 function Home() {
   // Declare a new state variable, which we'll call "todo"
   // Also create a copy of the todo as an array
@@ -61,19 +64,26 @@ function Home() {
   };
 
   // const [currentTodo, setCurrentTodo] = useState(
-    //   {
-    //   id: 0, editTodo: ''
-    // }
+  //   {
+  //   id: 0, editTodo: ''
+  // }
 
 
   // );
 
-  console.log(todos)
-
+  // console.log(todos)
  
+  const { 
+    register, 
+    handleSubmit, 
+    formState:{ errors },
+  } = useForm();
+  const onSubmit = (data) => addTodo(todos) 
+  //  handleReset(e) setEditShow(true);
+
   //Onclick function to add Todo
   const addTodo = () => {
-    
+    setEditShow(false) && setShow(show) ? setEditShow(false) && setShow(!show) : setEditShow(false)
     // if (todo !== " ") {
     setTodos((prevToDos) => {
       const task = {
@@ -84,8 +94,9 @@ function Home() {
       return [...prevToDos, task]
     });
     // }
-    
+
   };
+  
 
   function handleReset(e) {
     e.preventDefault();
@@ -101,14 +112,14 @@ function Home() {
   const deleteTodo = (id, todos) => {
     const newTodos = todos.filter((todo) => {
       return todo.id !== id;
-      
-      
+
+
     });
     setTodos(newTodos);
-    console.log(newTodos + "HELLO")
+    // console.log(newTodos + "HELLO")
     newTodos.length === 0 ? setEditShow(false) : setEditShow(true)
-   
-    
+
+
     // console.log(newTodos)
   };
 
@@ -161,7 +172,7 @@ function Home() {
 
 
   return (
-
+    <Container maxWidth="lg">
     <Box sx={{ flexGrow: 1 }} padding={6}>
 
       <Grid container spacing={2}>
@@ -173,16 +184,36 @@ function Home() {
               <Typography variant="h3" color='primary.light' padding={3}>TO DO TASKMAKER</Typography>
               <h4>YOU WILL ADD TASK:</h4>
               {/* <h3>{todo}</h3> */}
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <TextField id="outlined-basic"
+                  type="text"
+                  name="todo"
+                  value={todo}
+                  label="email"
+                  placeholder="Type a todo task"
+                  {...register ("email", {
+                    required: "Please enter at least one character",
+                    minLength: 1
+                  
+                  })}
+                  error={!!errors?.email}
+                  
+                  helperText={errors?.email ? errors.email.message : null}
+                  sx={{ ml: 1, mt: 1, p: 2, }}
+                  onChange={(e) => {
+                    setTodo(e.target.value);
+                  }} />
+                {/* <Box>
+                  {errors.email && errors.email.type === "required" && (
+                    <span className="error-message">Please enter a task</span>
+                  )}
+                </Box> */}
 
-              <TextField id="outlined-basic" type="text" name="todo" value={todo} placeholder="Type a todo task" sx={{ ml: 1, mt: 1, p: 2, }} onChange={(e) => {
-                setTodo(e.target.value);
-              }} />
-
-
-              <Button className="add-button" variant="contained" type="submit" endIcon={<SendIcon />} sx={{ ml: 2, mt: 3, p: 2, }} onClick={(e) => { addTodo(todos); handleReset(e); }}>
-                Send
-              </Button>
-             
+                <Button className="add-button" variant="contained" type="submit" endIcon={<SendIcon />} sx={{ ml: 2, mt: 3, p: 2, }} onSubmit={(e) => { addTodo(todos); handleReset(e); setEditShow(true); }}>
+                  Send
+                </Button>
+              </form>
+              
             </div>
 
           </Item>
@@ -197,16 +228,16 @@ function Home() {
 
               }}
               >
-                
-                
-                  { editShow && <div>
- <Button className="edit-button" variant="outlined" startIcon={<EditOutlinedIcon />} sx={{ mr: 2, mt: 2, p: 1 }} onClick={() => {
-                            handleEditClick(todo); setShow(!show); setEditShow(false)
 
-                          }}>
-                            Edit All</Button>
-                            </div>
-                        }
+
+                {editShow && <div>
+                  <Button className="edit-button" variant="outlined" startIcon={<EditOutlinedIcon />} sx={{ mr: 2, mt: 2, p: 1 }} onClick={() => {
+                    handleEditClick(todo); setShow(!show); setEditShow(false)
+
+                  }}>
+                    Edit All</Button>
+                </div>
+                }
 
                 {todos.map((item, index) => (
                   // <div className="todo" style={{ border: 1 }} >
@@ -215,7 +246,7 @@ function Home() {
                       <Typography variant="h5" component="div">
 
                         <li>
-                       <div key={item.id} > {item.taskName} </div>
+                          {editShow && <div key={item.id} > {item.taskName} </div>}
                           {isEditing ? (
 
                             // if we are editing - display the edit todo input
@@ -227,6 +258,7 @@ function Home() {
                               {/* <label htmlFor="editTodo">Edit todo: </label> */}
                               {/* notice that the value for the update input is set to the currentTodo state */}
                               {/* also notice the handleEditInputChange is being used */}
+
                               {<TextField
                                 name={`editTodo${item.id}`}
                                 type="text"
@@ -251,24 +283,24 @@ function Home() {
 
                               }
                               {/* here we added an "update" button element - use the type="submit" on the button which will still submit the form when clicked using the handleEditFormSubmit function */}
-                              <Button variant="outlined" sx={{ ml: 2, mt: 2, mb: 1, p: 1 }} onClick={() => {handleEditFormSubmit(item.id, item); setShow(true); setEditShow(true)}}>Update All</Button>
+                              <Button variant="outlined" sx={{ ml: 2, mt: 2, mb: 1, p: 1 }} onClick={() => { handleEditFormSubmit(item.id, item); setShow(true); setEditShow(true) }}>Update All</Button>
                               {/* here we added a "Cancel" button to set isEditing state back to false which will cancel editing mode */}
-                              <Button variant="outlined" sx={{ ml: 2, mt: 2, mb: 1, p: 1 }} onClick={() => {setIsEditing(false); setShow(true); setEditShow(true)}}>Cancel</Button> 
+                              <Button variant="outlined" sx={{ ml: 2, mt: 2, mb: 1, p: 1 }} onClick={() => { setIsEditing(false); setShow(true); setEditShow(true) }}>Cancel</Button>
 
                             </>
-                          ) : (" ") }
+                          ) : (" ")}
 
                           {/* Below code shows the todo number */}
                           {/* <div>Todo Number: {`${item.id}`}</div> */}
 
                         </li>
-                        { show && <div>
+                        {show && <div>
                           <Button className="delete-button" variant="outlined" startIcon={<DeleteIcon />} sx={{ mr: 2, mt: 2, p: 1 }} onClick={() => {
                             deleteTodo(item.id, todos)
                           }}>
                             Delete</Button>
 
-                         
+
                         </div>
                         }
                       </Typography>
@@ -289,7 +321,7 @@ function Home() {
 
       </Grid>
     </Box>
-
+    </Container>
   );
 }
 
