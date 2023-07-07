@@ -289,7 +289,7 @@ function Home() {
                               {/* here we added an "update" button element - use the type="submit" on the button which will still submit the form when clicked using the handleEditFormSubmit function */}
                               <Button variant="outlined" sx={{ ml: 2, mt: 2, mb: 1, p: 1 }} onClick={() => { handleEditFormSubmit(item.id, item); setShow(true); setEditShow(true); setHeaderShow(true) }}>Update All</Button>
                               {/* here we added a "Cancel" button to set isEditing state back to false which will cancel editing mode */}
-                              <Button variant="outlined" sx={{ ml: 2, mt: 2, mb: 1, p: 1 }} onClick={() => { setIsEditing(false); setShow(true); setEditShow(true) }}>Cancel</Button>
+                              <Button variant="outlined" sx={{ ml: 2, mt: 2, mb: 1, p: 1 }} onClick={() => { setIsEditing(false); setShow(true); setEditShow(true); setHeaderShow(true) }}>Cancel</Button>
 
                             </>
                           ) : (" ")}
