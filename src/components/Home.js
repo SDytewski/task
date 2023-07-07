@@ -58,6 +58,7 @@ function Home() {
   // These states hide and show buttons
   const [show, setShow] = useState(true)
   const [editShow, setEditShow] = useState(false)
+  const [headerShow, setHeaderShow] = useState(false)
 
   const hideButton = () => {
     setShow(true);
@@ -83,13 +84,16 @@ function Home() {
 
   //Onclick function to add Todo
   const addTodo = () => {
-    setEditShow(false) && setShow(show) ? setEditShow(false) && setShow(!show) : setEditShow(false)
+    setHeaderShow(true); setIsEditing(false); setShow(true); setEditShow(true)
+    //  && isEditing(true) ? setHeaderShow(false) && setShow(!show) && setEditShow(false) : setHeaderShow(true) && isEditing(false)
+    // setShow(!show) && setEditShow(false) && setHeaderShow(false) ? setShow(!show) && setEditShow(false) && setHeaderShow(false) : setHeaderShow(true)
+    // setEditShow(false) && setShow(false) ? setEditShow(false) && setShow(!show) && setHeaderShow(false) : setEditShow(false) && setHeaderShow(false)
     // if (todo !== " ") {
     setTodos((prevToDos) => {
       const task = {
         id: prevToDos.length === 0 ? 1 : prevToDos[prevToDos.length - 1].id + 1,
         taskName: todo.trim(),
-        edit: prevToDos.length <= 1 ? setEditShow(true) : setEditShow(false)
+        edit: prevToDos.length <= 1 ? setEditShow(true) : setEditShow(false) 
       }
       return [...prevToDos, task]
     });
@@ -232,7 +236,7 @@ function Home() {
 
                 {editShow && <div>
                   <Button className="edit-button" variant="outlined" startIcon={<EditOutlinedIcon />} sx={{ mr: 2, mt: 2, p: 1 }} onClick={() => {
-                    handleEditClick(todo); setShow(!show); setEditShow(false)
+                    handleEditClick(todo); setShow(!show); setEditShow(false); setHeaderShow(false)
 
                   }}>
                     Edit All</Button>
@@ -246,7 +250,7 @@ function Home() {
                       <Typography variant="h5" component="div">
 
                         <li>
-                          {editShow && <div key={item.id} > {item.taskName} </div>}
+                          {headerShow && <div key={item.id} > {item.taskName} </div>}
                           {isEditing ? (
 
                             // if we are editing - display the edit todo input
@@ -283,7 +287,7 @@ function Home() {
 
                               }
                               {/* here we added an "update" button element - use the type="submit" on the button which will still submit the form when clicked using the handleEditFormSubmit function */}
-                              <Button variant="outlined" sx={{ ml: 2, mt: 2, mb: 1, p: 1 }} onClick={() => { handleEditFormSubmit(item.id, item); setShow(true); setEditShow(true) }}>Update All</Button>
+                              <Button variant="outlined" sx={{ ml: 2, mt: 2, mb: 1, p: 1 }} onClick={() => { handleEditFormSubmit(item.id, item); setShow(true); setEditShow(true); setHeaderShow(true) }}>Update All</Button>
                               {/* here we added a "Cancel" button to set isEditing state back to false which will cancel editing mode */}
                               <Button variant="outlined" sx={{ ml: 2, mt: 2, mb: 1, p: 1 }} onClick={() => { setIsEditing(false); setShow(true); setEditShow(true) }}>Cancel</Button>
 
