@@ -53,16 +53,11 @@ function Home() {
   const [todos, setTodos] = useState([]);
   //setTodos is the rerendered value
   const [todo, setTodo] = useState("");
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(null);
+  const [editingText, setEditingText] = useState("");
 
   // These states hide and show buttons
-  const [show, setShow] = useState(true)
-  const [editShow, setEditShow] = useState(false)
-  const [headerShow, setHeaderShow] = useState(false)
-
-  const hideButton = () => {
-    setShow(true);
-  };
+ 
 
   // const [currentTodo, setCurrentTodo] = useState(
   //   {
@@ -90,16 +85,12 @@ function Home() {
   const addTodo = () => {
     // reset();
     setTodo("");
-    setHeaderShow(true); setIsEditing(false); setShow(true); setEditShow(true)
-    //  && isEditing(true) ? setHeaderShow(false) && setShow(!show) && setEditShow(false) : setHeaderShow(true) && isEditing(false)
-    // setShow(!show) && setEditShow(false) && setHeaderShow(false) ? setShow(!show) && setEditShow(false) && setHeaderShow(false) : setHeaderShow(true)
-    // setEditShow(false) && setShow(false) ? setEditShow(false) && setShow(!show) && setHeaderShow(false) : setEditShow(false) && setHeaderShow(false)
-    // if (todo !== " ") {
-    setTodos((prevToDos) => {
+     
+     setTodos((prevToDos) => {
       const task = {
         id: prevToDos.length === 0 ? 1 : prevToDos[prevToDos.length - 1].id + 1,
         taskName: todo.trim(),
-        edit: prevToDos.length <= 1 ? setEditShow(true) : setEditShow(true) 
+        
       }
       return [...prevToDos, task]
     });
@@ -127,9 +118,6 @@ function Home() {
     });
     setTodos(newTodos);
     // console.log(newTodos + "HELLO")
-    newTodos.length === 0 ? setEditShow(false) : setEditShow(true)
-
-
     // console.log(newTodos)
   };
 
@@ -150,6 +138,19 @@ function Home() {
     // console.log(updatedItem)
   }
 
+
+  function editTodo(id) {
+    const updatedTodos = [...todos].map((todo) => {
+      if (todo.id === id) {
+        todo.taskName = editingText;
+      }
+      return todo;
+    });
+    setTodos(updatedTodos);
+    setIsEditing(null);
+  }
+
+
   function handleEditFormSubmit(id, updatedTodo) {
     //  console.log(id);
     //  console.log(updatedTodo);
@@ -157,29 +158,6 @@ function Home() {
     // call the handleUpdateTodo function - passing the currentTodo.id and the currentTodo object as arguments
     handleUpdateTodo(id, updatedTodo);
   }
-
-  // const editTodo = () => {
-  //   setEditing(true);
-
-  function handleEditClick(todo) {
-    // set editing to true
-    setIsEditing(true);
-    // set the currentTodo to the todo item that was clicked
-    // setCurrentTodo({ ...todo });
-  }
-
-
-
-  // };
-
-  // Similar to componentDidMount and componentDidUpdate:
-  // useEffect(() => {
-  // Update the document title using the browser API
-  // document.title = `You will add task ${todo}`;
-
-
-  // });
-
 
   return (
     <Container maxWidth="lg">
@@ -219,7 +197,7 @@ function Home() {
                   )}
                 </Box> */}
 
-                <Button className="add-button" variant="contained" type="submit" endIcon={<SendIcon />} sx={{ ml: 2, mt: 3, p: 2, }} onSubmit={(e) => { addTodo(todos); handleReset(e); setEditShow(true);  }}>
+                <Button className="add-button" variant="contained" type="submit" endIcon={<SendIcon />} sx={{ ml: 2, mt: 3, p: 2, }} onSubmit={(e) => { addTodo(todos); handleReset(e) }}>
                   Send
                 </Button>
               </form>
@@ -240,14 +218,9 @@ function Home() {
               >
 
 
-                {editShow && <div>
-                  <Button className="edit-button" variant="outlined" startIcon={<EditOutlinedIcon />} sx={{ mr: 2, mt: 2, p: 1 }} onClick={() => {
-                    handleEditClick(todo); setShow(!show); setEditShow(false); setHeaderShow(false)
-
-                  }}>
-                    Edit All</Button>
-                </div>
-                }
+                
+                {/* </div> */}
+                
 
                 {todos.map((item, index) => (
                   // <div className="todo" style={{ border: 1 }} >
@@ -256,11 +229,11 @@ function Home() {
                       <Typography variant="h5" component="div">
 
                         <li>
-                          {headerShow && <div key={item.id} > {item.taskName} </div>}
-                          {isEditing ? (
+                          <div key={item.id} ></div>
+                         
 
-                            // if we are editing - display the edit todo input
-                            // make sure to add the handleEditFormSubmit function in the "onSubmit" prop
+                            {/* // if we are editing - display the edit todo input
+                            // make sure to add the handleEditFormSubmit function in the "onSubmit" prop */}
                             <>
                               {/* we've added an h2 element */}
                               {/* <h2>Edit Todo</h2> */}
@@ -268,8 +241,9 @@ function Home() {
                               {/* <label htmlFor="editTodo">Edit todo: </label> */}
                               {/* notice that the value for the update input is set to the currentTodo state */}
                               {/* also notice the handleEditInputChange is being used */}
-
-                              {<TextField
+                              {item.id === isEditing ? (
+                                
+                              <TextField
                                 name={`editTodo${item.id}`}
                                 type="text"
                                 placeholder="Edit todo"
@@ -288,31 +262,33 @@ function Home() {
                                     })
                                   })
                                 }}
-                              />
+                              />)
+                               :(<div>{item.taskName}</div>)
 
 
                               }
+ 
+
                               {/* here we added an "update" button element - use the type="submit" on the button which will still submit the form when clicked using the handleEditFormSubmit function */}
-                              <Button variant="outlined" sx={{ ml: 2, mt: 2, mb: 1, p: 1 }} onClick={() => { handleEditFormSubmit(item.id, item); setShow(true); setEditShow(true); setHeaderShow(true) }}>Update All</Button>
+                             
                               {/* here we added a "Cancel" button to set isEditing state back to false which will cancel editing mode */}
                               {/* <Button variant="outlined" sx={{ ml: 2, mt: 2, mb: 1, p: 1 }} onClick={() => { setIsEditing(false); setShow(true); setEditShow(true); setHeaderShow(true) }}>Clear Text</Button> */}
 
                             </>
-                          ) : (" ")}
-
-                          {/* Below code shows the todo number */}
-                          {/* <div>Todo Number: {`${item.id}`}</div> */}
-
-                        </li>
-                        {show && <div>
-                          <Button className="delete-button" variant="outlined" startIcon={<DeleteIcon />} sx={{ mr: 2, mt: 2, p: 1 }} onClick={() => {
-                            deleteTodo(item.id, todos)
-                          }}>
-                            Delete</Button>
-
-
+                          
+                          </li>
+                        <div>
+                        {item.id === isEditing ? (
+                          <Button variant="outlined" sx={{ ml: 2, mt: 1, mb: 2, p: 1 }} onClick={() => { editTodo(todo.id)}}>Update All</Button>
+                        ) : (
+                          <Button className="edit-button" variant="outlined" startIcon={<EditOutlinedIcon />} sx={{ mr: 2, mt: 2, p: 1 }} onClick={() => {
+                            setIsEditing(item.id);}}>  Edit All</Button>
+                         
+                        )}
+                           <Button className="delete-button" variant="outlined" startIcon={<DeleteIcon />} sx={{ mr: 2, mt: 2, p: 1 }} onClick={() => {
+                            deleteTodo(item.id, todos)}}> Delete</Button>
                         </div>
-                        }
+                        
                       </Typography>
                     </CardContent>
                   </Card>
