@@ -279,10 +279,10 @@ function Home() {
                           </li>
                         <div>
                         {item.id === isEditing ? (
-                          <Button variant="outlined" sx={{ ml: 2, mt: 1, mb: 2, p: 1 }} onClick={() => { editTodo(todo.id)}}>Update All</Button>
+                          <Button variant="outlined" sx={{ ml: 2, mr: 3, mt: 2, p: 1 }} onClick={() => { editTodo(todo.id)}}>Submit Edit</Button>
                         ) : (
                           <Button className="edit-button" variant="outlined" startIcon={<EditOutlinedIcon />} sx={{ mr: 2, mt: 2, p: 1 }} onClick={() => {
-                            setIsEditing(item.id);}}>  Edit All</Button>
+                            setIsEditing(item.id);}}> Edit</Button>
                          
                         )}
                            <Button className="delete-button" variant="outlined" startIcon={<DeleteIcon />} sx={{ mr: 2, mt: 2, p: 1 }} onClick={() => {
