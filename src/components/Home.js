@@ -16,7 +16,7 @@ import SendIcon from '@mui/icons-material/Send';
 import { createTheme } from '@mui/material/styles';
 import { useForm } from "react-hook-form";
 import Container from "@mui/material/Container";
-
+import PublishIcon from '@mui/icons-material/Publish';
 
 
 const theme = createTheme({
@@ -36,6 +36,15 @@ const theme = createTheme({
   },
 });
 
+<Grid
+  container
+  spacing={0}
+  direction="column"
+  alignItems="center"
+  justify="center"
+  style={{ minHeight: '100vh' }}
+ ></Grid>
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#F7F8F8',
   ...theme.typography.body2,
@@ -43,7 +52,6 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   color: theme.palette.text.secondary,
 }));
-
 
 
 
@@ -55,19 +63,6 @@ function Home() {
   const [todo, setTodo] = useState("");
   const [isEditing, setIsEditing] = useState(null);
   const [editingText, setEditingText] = useState("");
-
-  // These states hide and show buttons
- 
-
-  // const [currentTodo, setCurrentTodo] = useState(
-  //   {
-  //   id: 0, editTodo: ''
-  // }
-
-
-  // );
-
-  // console.log(todos)
  
   const { 
     register, 
@@ -161,15 +156,15 @@ function Home() {
 
   return (
     <Container maxWidth="lg">
-    <Box sx={{ flexGrow: 1 }} padding={6}>
+    <Box sx={{ flexGrow: 1 }} padding={2} >
 
-      <Grid container spacing={2}>
+      <Grid container spacing={2} >
 
         <Grid item xs={12}>
           <Item>
 
             <div>
-              <Typography variant="h3" color='primary.light' padding={3}>TO DO TASKMAKER</Typography>
+              <Typography variant="h4" color='primary.light'sx={{ border: 1 }} padding={5}>TO DO TASKMAKER</Typography>
               <h4>YOU WILL ADD TASK:</h4>
               {/* <h3>{todo}</h3> */}
               <form onSubmit={handleSubmit(onSubmit)}>
@@ -213,6 +208,8 @@ function Home() {
               <ul className="todo-list" style={{
                 padding: "0 0",
                 listStyle: "none",
+                display: "inline-block",
+               
 
               }}
               >
@@ -224,8 +221,8 @@ function Home() {
 
                 {todos.map((item, index) => (
                   // <div className="todo" style={{ border: 1 }} >
-                  <Card variant="outlined" sx={{ minWidth: 275, margin: 2 }}>
-                    <CardContent>
+                  <Card variant="outlined" sx={{  margin: 2, maxWidth: 350, boxShadow: 2 }}>
+                    <CardContent  >
                       <Typography variant="h5" component="div">
 
                         <li>
@@ -279,22 +276,19 @@ function Home() {
                           </li>
                         <div>
                         {item.id === isEditing ? (
-                          <Button variant="outlined" sx={{ ml: 2, mr: 3, mt: 2, p: 1 }} onClick={() => { editTodo(todo.id)}}>Submit Edit</Button>
+                          <Button variant="contained" startIcon={<PublishIcon />} sx={{ ml: 2, mr: 3, mt: 2, p: 1 }} onClick={() => { editTodo(todo.id)}}>Submit</Button>
                         ) : (
-                          <Button className="edit-button" variant="outlined" startIcon={<EditOutlinedIcon />} sx={{ mr: 2, mt: 2, p: 1 }} onClick={() => {
+                          <Button className="edit-button" variant="contained" startIcon={<EditOutlinedIcon />} sx={{ mr: 2, mt: 2, p: 1 }} onClick={() => {
                             setIsEditing(item.id);}}> Edit</Button>
                          
                         )}
-                           <Button className="delete-button" variant="outlined" startIcon={<DeleteIcon />} sx={{ mr: 2, mt: 2, p: 1 }} onClick={() => {
+                           <Button className="delete-button" variant="contained" startIcon={<DeleteIcon />} sx={{ mr: 2, mt: 2, p: 1 }} onClick={() => {
                             deleteTodo(item.id, todos)}}> Delete</Button>
                         </div>
                         
                       </Typography>
                     </CardContent>
                   </Card>
-                  // </div>
-
-
                 ))}
 
               </ul>
