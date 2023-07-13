@@ -16,7 +16,7 @@ import SendIcon from '@mui/icons-material/Send';
 import { createTheme } from '@mui/material/styles';
 import { useForm } from "react-hook-form";
 import Container from "@mui/material/Container";
-import PublishIcon from '@mui/icons-material/Publish';
+import SaveIcon from '@mui/icons-material/Save';
 
 
 const theme = createTheme({
@@ -165,7 +165,7 @@ function Home() {
 
             <div>
               <Typography variant="h4" color='primary.light'sx={{ border: 1 }} padding={5}>TO DO TASKMAKER</Typography>
-              <h4>YOU WILL ADD TASK:</h4>
+             <Box sx={{ mt: 5 }} ><h4>YOU WILL ADD TASK:</h4></Box> 
               {/* <h3>{todo}</h3> */}
               <form onSubmit={handleSubmit(onSubmit)}>
                 <TextField id="outlined-basic"
@@ -173,7 +173,7 @@ function Home() {
                   name="todo"
                   value={todo}
                 
-                  placeholder="Type a todo task"
+                  placeholder="Type a to do task"
                   {...register ("email", {
                     required: "Please enter at least one character",
                     minLength: 1
@@ -276,7 +276,7 @@ function Home() {
                           </li>
                         <div>
                         {item.id === isEditing ? (
-                          <Button variant="contained" startIcon={<PublishIcon />} sx={{ ml: 2, mr: 3, mt: 2, p: 1 }} onClick={() => { editTodo(todo.id)}}>Submit</Button>
+                          <Button variant="contained" startIcon={<SaveIcon/>} sx={{ ml: 2, mr: 3, mt: 2, p: 1 }} onClick={() => { editTodo(todo.id)}}>Save</Button>
                         ) : (
                           <Button className="edit-button" variant="contained" startIcon={<EditOutlinedIcon />} sx={{ mr: 2, mt: 2, p: 1 }} onClick={() => {
                             setIsEditing(item.id);}}> Edit</Button>
